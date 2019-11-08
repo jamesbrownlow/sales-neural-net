@@ -339,6 +339,7 @@ vectorOfTables = vector(mode='list')
 #  The automatic progress bar can be disabled by setting option dplyr.show_progress to FALSE.
 
 numberBags=10
+numberBags=25
 
 for (i in 1:numberBags) {
   

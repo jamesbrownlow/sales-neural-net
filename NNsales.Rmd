@@ -284,7 +284,6 @@ are appropriate for advertising
 =====
 
 
-
 ```{r}
 library(dplyr)
 # set test conditions

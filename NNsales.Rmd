@@ -134,9 +134,6 @@ head(normalizedTrainDataSet)
 ```
 
 
-
-
-
 # what factors may be in play??
   
 ```{r}

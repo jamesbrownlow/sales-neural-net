@@ -17,7 +17,8 @@ This is an application of a neural network designed to identify characterists of
   2. Determing values of age, gender, income level or commute distance *i.e.* miles/wk that predict best sales  
   3. Determing the appropriate neural net - how many hidden layers, what variables to leave out?  
   4. Does it help to use 80/20 (or any other) split for training/test sets?  
-  5. Recommend an advetising approach based on your findings  
+  5. Recommend an advetising approach based on your findings 
+  6. Based on the model you turned in in the initial NN assignment, use bagging to estimate expected effect
   
 ## first set up the environment
 
@@ -29,6 +30,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(neuralnet)
 cars = read.csv('cars.csv', header=TRUE)
+
 ```
 
 ## table ..  description of the data
@@ -261,7 +263,7 @@ print(paste('Overall accuracy: ', round(accuracyNN,3)))
 ```{r echo=FALSE}
 randomTest = sample(1:length(normalizedTestDataSet$salesTgt), 15)
 
-x = data.frame(age=normalizedTestDataSet$age[randomTest],     miles=normalizedTestDataSet$miles[randomTest],
+x = data.frame(age=normalizedTestDataSet$age[randomTest], miles=normalizedTestDataSet$miles[randomTest],
     debt= normalizedTestDataSet$debt[randomTest], 
     income= normalizedTestDataSet$income[randomTest])
 
@@ -334,6 +336,8 @@ vectorOfTables = vector(mode='list')
 ## run ten samples
 
 ```{r bagging}
+#  The automatic progress bar can be disabled by setting option dplyr.show_progress to FALSE.
+
 numberBags=10
 
 for (i in 1:numberBags) {
@@ -343,7 +347,7 @@ for (i in 1:numberBags) {
   bootSample = normalizedTrainDataSet[bootSampleIndex,]
   
   # construct neural net using the bootstrap sample
-  NN = neuralnet(salesTgt~age+miles+debt+income+gender, data = bootSample,               hidden=c(3,2), stepmax=1.e6, rep=1, linear.output = FALSE)
+  NN = neuralnet(salesTgt~age+miles+debt+income+gender, data = bootSample, hidden=c(3,2), stepmax=1.e6, rep=1, linear.output = FALSE)
   
   # get normalizing constants from the bootstrap sample
   meanAge = mean(trainDataSet[bootSampleIndex,'age'])
